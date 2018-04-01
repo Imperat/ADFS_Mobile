@@ -3,7 +3,7 @@ import { Button, View, Text, ActivityIndicator, Image, FlatList } from 'react-na
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: 'Команд',
+    title: 'Команда',
   };
 
   constructor(props){

@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import { Button, View, Text, ActivityIndicator, Image, FlatList } from 'react-native';
 
+import { getTeams } from '../api/teams';
+
+import TeamItem from '../components/TeamItem';
+
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Команды АДФС',
@@ -17,12 +21,23 @@ export default class HomeScreen extends React.Component {
   }
 
   async fetchData() {
-    const response = await fetch("https://adf-saratov.ru/logic/api/teams/");
-    const json = await response.json();
-    console.log(response);
-    console.log(json);
-    this.setState({ teams: json || [], loading: false });
+    const teams = await getTeams();
+    console.log('TeAMS:');
+    console.log(teams);
+
+    this.setState({ teams, loading: false });
   }
+
+  _renderItem = ({ item }) => (
+    <TeamItem
+      id={item.id}
+      onPressItem={this._onPressItem}
+      name={item.name}
+      city={item.city}
+      image={item.image}
+      key={item.id}
+    />
+  );
 
   render() {
     const { navigate, state } = this.props.navigation;
@@ -38,19 +53,8 @@ export default class HomeScreen extends React.Component {
       <View>
       <FlatList
         data={this.state.teams}
-        renderItem={({item}) => (
-          <View>
-            <Image
-              source={{
-                uri: `https://adf-saratov.ru${item.image}`,
-              }}
-              style={{width: 64, height: 64}}
-            />
-            <Text>{item.name}</Text>
-            <Button onPress={() => navigate('Team', { team: item })} title="Learn More"/>
-            <Text style={{color: 'grey'}}>{item.city}</Text>
-          </View>
-        )}
+        renderItem={this._renderItem}
+        keyExtractor={item => item.id}
       />
       </View>
     )
