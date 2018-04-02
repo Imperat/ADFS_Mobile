@@ -3,8 +3,8 @@ import {
 } from 'react-navigation';
 
 import HomeScreen from './screens/homeScreen';
-import TeamsScreen from './screens/teamsScreen';
-import TeamScreen from './screens/teamScreen';
+import TeamsScreen from './screens/football/teams/teamsScreen';
+import TeamScreen from './screens/football/teams/teamScreen';
 
 const App = StackNavigator({
   Home: { screen: HomeScreen },
