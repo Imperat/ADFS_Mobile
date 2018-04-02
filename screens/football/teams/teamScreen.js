@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import { Button, View, Text, ActivityIndicator, Image, FlatList } from 'react-native';
+import {
+  Button,
+  View,
+  Text,
+  ActivityIndicator,
+  Image,
+  FlatList,
+} from 'react-native';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -9,17 +16,14 @@ export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-        loading: true,
-        error: false,
+      loading: true,
+      error: false,
     }
-
-    console.log(this);
   }
 
   render() {
     const { navigate, state } = this.props.navigation;
-    console.log('STATE');
-    console.log(state);
+
     if (this.state.loading) {
       return (
         <View>

@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import { Button, View, Text, ActivityIndicator, Image, FlatList } from 'react-native';
 
-import { getTeams } from '../api/teams';
-
-import TeamItem from '../components/TeamItem';
+import { getTeams } from '../../../api/teams';
+import TeamItem from '../../../components/TeamItem';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -22,22 +21,24 @@ export default class HomeScreen extends React.Component {
 
   async fetchData() {
     const teams = await getTeams();
-    console.log('TeAMS:');
-    console.log(teams);
-
     this.setState({ teams, loading: false });
   }
 
   _renderItem = ({ item }) => (
     <TeamItem
       id={item.id}
-      onPressItem={this._onPressItem}
+      onPressItem={() => this._onPressItem(item)}
       name={item.name}
       city={item.city}
       image={item.image}
       key={item.id}
     />
   );
+
+  _onPressItem = (item) => {
+    const { navigate } = this.props.navigation;
+    navigate('Team', item);
+  };
 
   render() {
     const { navigate, state } = this.props.navigation;
@@ -55,6 +56,7 @@ export default class HomeScreen extends React.Component {
         data={this.state.teams}
         renderItem={this._renderItem}
         keyExtractor={item => item.id}
+        onPressItem={this._onPressItem}
       />
       </View>
     )
